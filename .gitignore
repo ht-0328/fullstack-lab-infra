@@ -1,0 +1,6 @@
+# Terraform の作業ディレクトリと state（state はアカウント ID などを含むので S3 に置き、git には入れない）
+.terraform/
+*.tfstate
+*.tfstate.*
+# state のバケット名（アカウント ID を含む）を書くファイル。公開のリポジトリに出さない
+backend.hcl

@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: 道具のイメージと Terraform の形式（fmt、validate）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
+      # コンテナをランナーのユーザーで動かし、~/.aws はマウント元だけ用意する（中身は空。AWS には接続しない）
+      - name: 手元と同じ前提をそろえる
+        run: |
+          echo "HOST_UID=$(id -u)" >> "$GITHUB_ENV"
+          echo "HOST_GID=$(id -g)" >> "$GITHUB_ENV"
+          mkdir -p ~/.aws
+      - name: 道具のイメージを作る
+        run: docker compose build tools
+      - name: 道具のバージョン
+        run: docker compose run --rm -T tools sh -c 'aws --version && terraform version'
+      # backend を使わずに初期化して、書き方の誤りだけを見る
+      - name: Terraform の形式と構文
+        run: |
+          docker compose run --rm -T tools sh -c '
+            set -e
+            terraform fmt -check -recursive
+            for dir in $(find . -name "*.tf" -not -path "*/.terraform/*" -exec dirname {} \; | sort -u); do
+              echo "== $dir"
+              terraform -chdir="$dir" init -backend=false -input=false
+              terraform -chdir="$dir" validate
+            done
+          '
