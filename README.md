@@ -1,6 +1,6 @@
 # fullstack-lab-infra
 
-AWS のインフラ（Terraform と、AWS CLI と Terraform を入れた道具のコンテナ）。[fullstack-lab](https://github.com/ht-0328/fullstack-lab) の一部で、集約リポジトリの `infra/` に submodule として入ります。全体の構成は fullstack-lab の README を、何を作るかと段取りは設計書 [0006](https://github.com/ht-0328/fullstack-lab/blob/main/docs/design/0006-aws-foundation-and-ecr.md) を参照してください。
+AWS のインフラ（Terraform と、AWS CLI と Terraform を入れた道具のコンテナ）。[fullstack-lab](https://github.com/ht-0328/fullstack-lab) の一部で、集約リポジトリの `infra/` に submodule として入ります。全体の構成は fullstack-lab の README を、何を作るかは fullstack-lab の設計の文書 [docs/design/infra/](https://github.com/ht-0328/fullstack-lab/blob/main/docs/design/infra/README.md) を、作る順序と進み具合は issue [fullstack-lab#13](https://github.com/ht-0328/fullstack-lab/issues/13) を参照してください。
 
 ## 道具のコンテナ
 
